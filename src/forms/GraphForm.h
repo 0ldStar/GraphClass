@@ -18,14 +18,15 @@ class GraphForm {
 public:
     virtual bool hasEdge(int i, int j) = 0;
 
-    virtual EdgeT *InsertE() = 0;
+    virtual EdgeT *insertE(VertexT *v1, VertexT *v2) = 0;
 
-    virtual bool DeleteE(EdgeT *e) = 0;
+    virtual bool deleteE(EdgeT *e) = 0;
 
     virtual EdgeT *getEdge(VertexT *v1, VertexT *v2) = 0;
 
-    vector<VertexT *> vertexVector;
+    virtual void print() = 0;
 
+    virtual vector<VertexT *> & getVertexVector() = 0;
 };
 
 

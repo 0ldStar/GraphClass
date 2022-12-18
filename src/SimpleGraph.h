@@ -27,9 +27,9 @@ public:
 
     SimpleGraph();
 
-    SimpleGraph(int _VCount, bool _D, bool _F);
+    SimpleGraph(int VCount, bool D, bool F);
 
-    SimpleGraph(int _VCount, int ECount, bool _D, bool _F);
+    SimpleGraph(int VCount, int ECount, bool D, bool F);
 
     SimpleGraph(SimpleGraph &G);
 
@@ -39,9 +39,9 @@ public:
 
     int getE();
 
-    bool Directed();
+    bool isDirected();
 
-    bool Dense();
+    bool isDense();
 
     int getK();
 
@@ -49,9 +49,15 @@ public:
 
     void toMatrixGraph();
 
-    VertexT *InsertV();
+    VertexT *insertV();
 
-    bool DeleteV(VertexT *v);
+    bool deleteV(VertexT *v);
+
+    EdgeT *insertE(VertexT *i, VertexT *j);
+
+    bool deleteE(EdgeT *e);
+
+    EdgeT *getEdge(VertexT *v1, VertexT *v2);
 
     void printGraph();
 
@@ -61,9 +67,9 @@ private:
     int ECount;
     bool D;
     bool dense;
-    int K;
     GraphForm<DATA, NAME, WEIGHT> *graphForm;
 };
+
 
 
 #endif //ASD_RGR_SIMPLEGRAPH_H

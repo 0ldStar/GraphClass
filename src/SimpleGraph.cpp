@@ -10,8 +10,7 @@ SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph() {
     ECount = 0;
     D = false;
     dense = false;
-    K = 0;
-    graphForm = new LGraph<DATA, NAME, WEIGHT>();
+    graphForm = new LGraph<DATA, NAME, WEIGHT>(VCount);
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
@@ -20,33 +19,31 @@ SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCount, bool _D, bool _F) {
     ECount = 0;
     D = _D;
     dense = _F;
-    K = 0;
 
-    if (dense)
-        graphForm = new LGraph<DATA, NAME, WEIGHT>();
+    if (dense == LGraphType)
+        graphForm = new LGraph<DATA, NAME, WEIGHT>(VCount);
     else
-        graphForm = new MGraph<DATA, NAME, WEIGHT>();
+        graphForm = new MGraph<DATA, NAME, WEIGHT>(VCount);
 
     for (int i = 0; i < VCount; ++i) {
-        graphForm->vertexVector.push_back(new VertexT());
+        graphForm->getVertexVector().push_back(new VertexT());
     }
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
 SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCount, int _ECount, bool _D, bool _F) {
     VCount = _VCount;
-    ECount = _ECount;
+    ECount = _ECount; //todo
     D = _D;
     dense = _F;
-    K = 0;
 
-    if (dense)
-        graphForm = new LGraph<DATA, NAME, WEIGHT>();
+    if (dense == LGraphType)
+        graphForm = new LGraph<DATA, NAME, WEIGHT>(VCount);
     else
-        graphForm = new MGraph<DATA, NAME, WEIGHT>();
+        graphForm = new MGraph<DATA, NAME, WEIGHT>(VCount);
     for (int i = 0; i < VCount; ++i) {
-        graphForm->vertexVector.push_back(new VertexT());
-        graphForm->vertexVector[i]->setName(to_string(i));
+        graphForm->getVertexVector().push_back(new VertexT());
+        graphForm->getVertexVector()[i]->setName(to_string(i));
     }
 }
 
@@ -62,18 +59,18 @@ SimpleGraph<DATA, NAME, WEIGHT>::~SimpleGraph() {
 
 
 template<typename DATA, typename NAME, typename WEIGHT>
-bool SimpleGraph<DATA, NAME, WEIGHT>::DeleteV(VertexT *v) {
+bool SimpleGraph<DATA, NAME, WEIGHT>::deleteV(VertexT *v) {
     return false;//todo
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-Vertex<DATA, NAME> *SimpleGraph<DATA, NAME, WEIGHT>::InsertV() {
+Vertex<DATA, NAME> *SimpleGraph<DATA, NAME, WEIGHT>::insertV() {
     return nullptr;//todo
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
 void SimpleGraph<DATA, NAME, WEIGHT>::toMatrixGraph() {
- //todo
+    //todo
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
@@ -83,6 +80,7 @@ void SimpleGraph<DATA, NAME, WEIGHT>::toListGraph() {
 
 template<typename DATA, typename NAME, typename WEIGHT>
 int SimpleGraph<DATA, NAME, WEIGHT>::getK() {
+    int K;
     if (D)
         K = ECount / (VCount * (VCount - 1));
     else
@@ -91,12 +89,12 @@ int SimpleGraph<DATA, NAME, WEIGHT>::getK() {
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-bool SimpleGraph<DATA, NAME, WEIGHT>::Dense() {
+bool SimpleGraph<DATA, NAME, WEIGHT>::isDense() {
     return dense;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-bool SimpleGraph<DATA, NAME, WEIGHT>::Directed() {
+bool SimpleGraph<DATA, NAME, WEIGHT>::isDirected() {
     return D;
 }
 
@@ -112,45 +110,24 @@ int SimpleGraph<DATA, NAME, WEIGHT>::getV() {
 
 
 template<typename DATA, typename NAME, typename WEIGHT>
+Edge<DATA, NAME, WEIGHT> *SimpleGraph<DATA, NAME, WEIGHT>::getEdge(VertexT *v1, VertexT *v2) {
+    return graphForm->getEdge(v1, v2);
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+bool SimpleGraph<DATA, NAME, WEIGHT>::deleteE(EdgeT *e) {
+    return graphForm->deleteE(e);
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+Edge<DATA, NAME, WEIGHT> *SimpleGraph<DATA, NAME, WEIGHT>::insertE(VertexT *i, VertexT *j) {
+    return graphForm->insertE(i, j);
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
 void SimpleGraph<DATA, NAME, WEIGHT>::printGraph() {
-    int i, j;
-    VertexT *v;
-    EdgeT *e;
-    if (dense) {
-        cout << "  ";
-        for (i = 0; i < getV(); i++) {
-            v = graphForm->vertexVector[i];
-            cout /*<< setw(4)*/ << v->getName();
-        }
-        cout << endl;
-        for (i = 0; i < 5 * getV(); i++)
-            cout << "_";
-        cout << endl;
-        for (i = 0; i < getV(); i++) {
-            v = graphForm->vertexVector[i];
-            cout << v->getName() << "|";
-            for (j = 0; j < getV(); j++)
-                if (graphForm->hasEdge(i, j)) {
-                    e = graphForm->getEdge(graphForm->vertexVector[i], graphForm->vertexVector[j]);
-                    if (e)
-                        cout /*<< setw(4)*/ << e->getW();
-                } else
-                    cout /*<< setw(4)*/ << "0";
-            cout << endl;
-        }
-    } else {
-        for (i = 0; i < getV(); i++) {
-            v = graphForm->vertexVector[i];
-            cout << "*" << v->getName() << "->";
-            for (j = 0; j < getV(); j++) {
-                v = graphForm->vertexVector[j];
-                if (graphForm->hasEdge(i, j))
-                    cout << v->getName() << "->";
-            }
-            cout << endl;
-        }
-    }
-};
+    graphForm->print();
+}
 
 template
 class SimpleGraph<int, string, int>;

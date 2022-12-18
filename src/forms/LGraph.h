@@ -14,34 +14,56 @@ public:
     using VertexT = Vertex<DATA, NAME>;
     using EdgeT = Edge<DATA, NAME, WEIGHT>;
 
-    LGraph();
+    LGraph(unsigned _size);
 
     bool hasEdge(int i, int j);
 
-    EdgeT *InsertE();
+    EdgeT *insertE(VertexT *v1, VertexT *v2);
 
-    bool DeleteE(EdgeT *e);
+    bool deleteE(EdgeT *e);
 
     EdgeT *getEdge(VertexT *v1, VertexT *v2);
 
-private:
+    void print();
 
+    vector<VertexT *> &getVertexVector();
+
+    vector<VertexT *> vertexVector;
+
+private:
     class ENode {
+    public:
+
+        ENode(Edge<DATA, NAME, WEIGHT> *_e, ENode *_next) {
+            e = _e;
+            next = _next;
+        }
+
         Edge<DATA, NAME, WEIGHT> *e;
         ENode *next;
     };
 
     class VNode {
-        Vertex<DATA, NAME> *v;
+    public:
+        VNode(int ind, ENode *_eNode, VNode *_next) {
+            v_ind = ind;
+            eNode = _eNode;
+            next = _next;
+        }
+
+        int v_ind;
         ENode *eNode;
         VNode *next;
     };
 
-    VNode *list;
+    VNode *findVertex();
 
+    Edge<DATA, NAME, WEIGHT> * insert(VertexT *v1, VertexT *v2);
+
+    VNode *list;
+    unsigned size;
 
 };
-
 
 
 #endif //ASD_RGR_LGRAPH_H

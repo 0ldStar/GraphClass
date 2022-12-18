@@ -14,19 +14,29 @@ public:
     using VertexT = Vertex<DATA, NAME>;
     using EdgeT = Edge<DATA, NAME, WEIGHT>;
 
-    MGraph();
+    MGraph(unsigned _size);
 
     bool hasEdge(int i, int j);
 
-    EdgeT *InsertE();
+    EdgeT *insertE(VertexT *v1, VertexT *v2);
 
-    bool DeleteE(EdgeT *e);
+    bool deleteE(EdgeT *e);
 
     EdgeT *getEdge(VertexT *v1, VertexT *v2);
 
+    void print();
+
+    vector<VertexT *> & getVertexVector();
+
+    vector<VertexT *> vertexVector;
+
+
 private:
-    vector<vector<Vertex<DATA, NAME> *>> matrix;
+    vector<vector<Edge<DATA, NAME, WEIGHT> *>> matrix;
+    unsigned size;
 };
+
+
 
 
 #endif //ASD_RGR_MGRAPH_H

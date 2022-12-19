@@ -34,9 +34,13 @@ public:
 
     vector<VertexT *> vertexVector;
 
+    vector<EdgeT *> *getEdgeVector();
+
+    vector<EdgeT *> *getEdgeVector(Vertex<DATA, NAME> *v);
 
 private:
     vector<vector<Edge<DATA, NAME, WEIGHT> *>> matrix;
+    vector<EdgeT *> *edgeVector;
     unsigned size;
     bool directed;
 };

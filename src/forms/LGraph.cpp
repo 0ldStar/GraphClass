@@ -12,11 +12,12 @@ LGraph<DATA, NAME, WEIGHT>::LGraph(unsigned _size, bool _directed) {
     for (int i = 1; i < size; ++i) {
         list = new VNode(i, nullptr, list);
     }
+    edgeVector = nullptr;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
 LGraph<DATA, NAME, WEIGHT>::LGraph(LGraph &G) {
-
+//todo
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
@@ -34,6 +35,7 @@ LGraph<DATA, NAME, WEIGHT>::~LGraph() {
         delete list;
         list = vtmp;
     }
+    delete edgeVector;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
@@ -77,16 +79,25 @@ Edge<DATA, NAME, WEIGHT> *LGraph<DATA, NAME, WEIGHT>::getEdge(VertexT *v1, Verte
 template<typename DATA, typename NAME, typename WEIGHT>
 bool LGraph<DATA, NAME, WEIGHT>::deleteE(EdgeT *e) {
     VNode *vtmp = list;
-    ENode *etmp;
+    ENode *etmp, *prev;
     while (vtmp) {
+        prev = vtmp->eNode;
         etmp = vtmp->eNode;
-        while (etmp && etmp->next) {
-            if (etmp->next->e == e) {
-                delete etmp->next->e;
-                delete etmp->next;
-                etmp->next = nullptr;
+        if (etmp && (etmp->e->getV1() == e->getV1() && etmp->e->getV2() == e->getV2())) {
+            vtmp->eNode = nullptr;
+            delete etmp->e;
+            delete etmp;
+            return true;
+        }
+        if (etmp) etmp = etmp->next;
+        while (etmp) {
+            if (etmp && (etmp->e->getV1() == e->getV1() && etmp->e->getV2() == e->getV2())) {
+                prev->next = etmp->next;
+                delete etmp->e;
+                delete etmp;
                 return true;
             }
+            prev = etmp;
             etmp = etmp->next;
         }
         vtmp = vtmp->next;
@@ -148,21 +159,44 @@ Edge<DATA, NAME, WEIGHT> *LGraph<DATA, NAME, WEIGHT>::insert(VertexT *v1, Vertex
     }
     return nullptr;
 }
-//template<typename DATA, typename NAME, typename WEIGHT>
-//LGraph<DATA, NAME, WEIGHT>::VNode *LGraph<DATA, NAME, WEIGHT>::findVertex() {
-//    VNode *vtmp = list;
-//    ENode *etmp = nullptr;
-//    VNode *res = nullptr;
-//    while (vtmp) {
-//        etmp = vtmp->eNode;
-//        while (etmp) {
-//            if ()
-//            etmp = etmp->next;
-//        }
-//        vtmp = vtmp->next;
-//    }
-//    return res;
-//}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+vector<Edge<DATA, NAME, WEIGHT> *> *LGraph<DATA, NAME, WEIGHT>::getEdgeVector() {
+    edgeVector = new vector<Edge<DATA, NAME, WEIGHT> *>();
+    VNode *vtmp = list;
+    ENode *etmp;
+
+    while (vtmp) {
+        etmp = vtmp->eNode;
+        while (etmp) {
+            edgeVector->push_back(etmp->e);
+            etmp = etmp->next;
+        }
+        vtmp = vtmp->next;
+    }
+    return edgeVector;
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+vector<Edge<DATA, NAME, WEIGHT> *> *LGraph<DATA, NAME, WEIGHT>::getEdgeVector(Vertex<DATA, NAME> *v) {
+    edgeVector = new vector<Edge<DATA, NAME, WEIGHT> *>();
+    VNode *vtmp = list;
+    ENode *etmp;
+
+    while (vtmp) {
+        if (vtmp->v_ind == v->getInd()) {
+            etmp = vtmp->eNode;
+            while (etmp) {
+                edgeVector->push_back(etmp->e);
+                etmp = etmp->next;
+            }
+            break;
+        }
+        vtmp = vtmp->next;
+    }
+    return edgeVector;
+}
+
 
 template
 class LGraph<int, std::string, int>;

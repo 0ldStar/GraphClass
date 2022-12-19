@@ -26,6 +26,10 @@ public:
 
     virtual void print() = 0;
 
+    virtual vector<EdgeT *> *getEdgeVector() = 0;
+
+    virtual vector<EdgeT *> *getEdgeVector(Vertex<DATA, NAME> *v) = 0;
+
     virtual vector<VertexT *> &getVertexVector() = 0;
 };
 

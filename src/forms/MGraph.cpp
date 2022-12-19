@@ -15,6 +15,7 @@ MGraph<DATA, NAME, WEIGHT>::MGraph(unsigned _size, bool _directed) {
         }
     }
     directed = _directed;
+    edgeVector = nullptr;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
@@ -40,6 +41,7 @@ MGraph<DATA, NAME, WEIGHT>::~MGraph() {
             delete matrix[i][j];
         }
     }
+    delete edgeVector;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
@@ -85,6 +87,28 @@ void MGraph<DATA, NAME, WEIGHT>::print() {
 template<typename DATA, typename NAME, typename WEIGHT>
 vector<Vertex<DATA, NAME> *> &MGraph<DATA, NAME, WEIGHT>::getVertexVector() {
     return vertexVector;
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+vector<Edge<DATA, NAME, WEIGHT> *> *MGraph<DATA, NAME, WEIGHT>::getEdgeVector() {
+    edgeVector = new vector<Edge<DATA, NAME, WEIGHT> *>();
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            if (matrix[i][j])
+                edgeVector->push_back(matrix[i][j]);
+        }
+    }
+    return edgeVector;
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+vector<Edge<DATA, NAME, WEIGHT> *> *MGraph<DATA, NAME, WEIGHT>::getEdgeVector(Vertex<DATA, NAME> *v) {
+    edgeVector = new vector<Edge<DATA, NAME, WEIGHT> *>();
+    for (int i = 0; i < size; ++i) {
+        if (matrix[v->getInd()][i])
+            edgeVector->push_back(matrix[v->getInd()][i]);
+    }
+    return edgeVector;
 }
 
 template

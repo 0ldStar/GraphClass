@@ -143,5 +143,35 @@ void SimpleGraph<DATA, NAME, WEIGHT>::printGraph() {
     graphForm->print();
 }
 
+template<typename DATA, typename NAME, typename WEIGHT>
+EdgeIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::eEnd() {
+    return EdgeIterator<DATA, NAME, WEIGHT>(nullptr, -1);
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+EdgeIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::eBegin() {
+    return EdgeIterator<DATA, NAME, WEIGHT>(graphForm->getEdgeVector(), 0);
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+VertexIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::vEnd() {
+    return VertexIterator<DATA, NAME, WEIGHT>(graphForm->getVertexVector(), -1);
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+VertexIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::vBegin() {
+    return VertexIterator<DATA, NAME, WEIGHT>(graphForm->getVertexVector(), 0);
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+EdgeIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::adjEEnd(Vertex<DATA, NAME> *v) {
+    return EdgeIterator<DATA, NAME, WEIGHT>(nullptr, -1);
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+EdgeIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::adjEBegin(Vertex<DATA, NAME> *v) {
+    return EdgeIterator<DATA, NAME, WEIGHT>(graphForm->getEdgeVector(v), 0);
+}
+
 template
 class SimpleGraph<int, string, int>;

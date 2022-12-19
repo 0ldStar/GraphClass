@@ -8,7 +8,7 @@
 #define LGraphType false
 #define MGraphType true
 #define DGraphType true
-#define NonDGraphTyped false
+#define NonDGraphType false
 
 #include <iostream>
 #include "elements/Edge.h"
@@ -16,8 +16,8 @@
 #include "forms/GraphForm.h"
 #include "forms/LGraph.h"
 #include "forms/MGraph.h"
-
-//using namespace std;
+#include "iterators/EdgeIterator.h"
+#include "iterators/VertexIterator.h"
 
 template<typename DATA, typename NAME, typename WEIGHT>
 class SimpleGraph {
@@ -61,8 +61,19 @@ public:
 
     void printGraph();
 
-private:
+    VertexIterator<DATA, NAME, WEIGHT> vBegin();
 
+    VertexIterator<DATA, NAME, WEIGHT> vEnd();
+
+    EdgeIterator<DATA, NAME, WEIGHT> eBegin();
+
+    EdgeIterator<DATA, NAME, WEIGHT> eEnd();
+
+    EdgeIterator<DATA, NAME, WEIGHT> adjEBegin(Vertex<DATA, NAME> * v);
+
+    EdgeIterator<DATA, NAME, WEIGHT> adjEEnd(Vertex<DATA, NAME> * v);
+
+private:
     int VCount;
     int ECount;
     bool D;

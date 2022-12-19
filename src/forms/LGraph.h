@@ -34,6 +34,10 @@ public:
 
     vector<VertexT *> vertexVector;
 
+    vector<EdgeT *> *getEdgeVector();
+
+    vector<EdgeT *> *getEdgeVector(Vertex<DATA, NAME> *v);
+
 private:
     class ENode {
     public:
@@ -60,10 +64,8 @@ private:
         VNode *next;
     };
 
-    VNode *findVertex();
-
     Edge<DATA, NAME, WEIGHT> *insert(VertexT *v1, VertexT *v2);
-
+    vector<EdgeT *> *edgeVector;
     VNode *list;
     unsigned size;
     bool directed;

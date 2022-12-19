@@ -14,7 +14,11 @@ public:
     using VertexT = Vertex<DATA, NAME>;
     using EdgeT = Edge<DATA, NAME, WEIGHT>;
 
-    MGraph(unsigned _size);
+    MGraph(unsigned _size, bool directed);
+
+    MGraph(MGraph &G);
+
+    ~MGraph();
 
     bool hasEdge(int i, int j);
 
@@ -26,7 +30,7 @@ public:
 
     void print();
 
-    vector<VertexT *> & getVertexVector();
+    vector<VertexT *> &getVertexVector();
 
     vector<VertexT *> vertexVector;
 
@@ -34,9 +38,8 @@ public:
 private:
     vector<vector<Edge<DATA, NAME, WEIGHT> *>> matrix;
     unsigned size;
+    bool directed;
 };
-
-
 
 
 #endif //ASD_RGR_MGRAPH_H

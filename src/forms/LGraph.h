@@ -14,7 +14,11 @@ public:
     using VertexT = Vertex<DATA, NAME>;
     using EdgeT = Edge<DATA, NAME, WEIGHT>;
 
-    LGraph(unsigned _size);
+    LGraph(unsigned _size, bool directed);
+
+    LGraph(LGraph &G);
+
+    ~LGraph();
 
     bool hasEdge(int i, int j);
 
@@ -58,11 +62,11 @@ private:
 
     VNode *findVertex();
 
-    Edge<DATA, NAME, WEIGHT> * insert(VertexT *v1, VertexT *v2);
+    Edge<DATA, NAME, WEIGHT> *insert(VertexT *v1, VertexT *v2);
 
     VNode *list;
     unsigned size;
-
+    bool directed;
 };
 
 

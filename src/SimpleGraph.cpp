@@ -10,7 +10,7 @@ SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph() {
     ECount = 0;
     D = false;
     dense = false;
-    graphForm = new LGraph<DATA, NAME, WEIGHT>(VCount);
+    graphForm = new LGraph<DATA, NAME, WEIGHT>(VCount, D);
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
@@ -21,9 +21,9 @@ SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCount, bool _D, bool _F) {
     dense = _F;
 
     if (dense == LGraphType)
-        graphForm = new LGraph<DATA, NAME, WEIGHT>(VCount);
+        graphForm = new LGraph<DATA, NAME, WEIGHT>(VCount, D);
     else
-        graphForm = new MGraph<DATA, NAME, WEIGHT>(VCount);
+        graphForm = new MGraph<DATA, NAME, WEIGHT>(VCount, D);
 
     for (int i = 0; i < VCount; ++i) {
         graphForm->getVertexVector().push_back(new VertexT());
@@ -33,28 +33,42 @@ SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCount, bool _D, bool _F) {
 template<typename DATA, typename NAME, typename WEIGHT>
 SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCount, int _ECount, bool _D, bool _F) {
     VCount = _VCount;
-    ECount = _ECount; //todo
+    ECount = _ECount;
     D = _D;
     dense = _F;
 
     if (dense == LGraphType)
-        graphForm = new LGraph<DATA, NAME, WEIGHT>(VCount);
+        graphForm = new LGraph<DATA, NAME, WEIGHT>(VCount, D);
     else
-        graphForm = new MGraph<DATA, NAME, WEIGHT>(VCount);
+        graphForm = new MGraph<DATA, NAME, WEIGHT>(VCount, D);
+
     for (int i = 0; i < VCount; ++i) {
         graphForm->getVertexVector().push_back(new VertexT());
         graphForm->getVertexVector()[i]->setName(to_string(i));
+        graphForm->getVertexVector()[i]->setInd(i);
+    }
+    for (int i = 0; i < ECount; ++i) {
+        graphForm->insertE(graphForm->getVertexVector()[i], graphForm->getVertexVector()[VCount - i - 1]);
     }
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
 SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(SimpleGraph &G) {
-    //todo
+    VCount = G.VCount;
+    ECount = G.ECount;
+    D = G.D;
+    dense = G.dense;
+    if (dense == LGraphType)
+        graphForm = new LGraph<DATA, NAME, WEIGHT>(
+                reinterpret_cast<LGraph<int, basic_string<char>, int> &>(G.graphForm));
+    else
+        graphForm = new MGraph<DATA, NAME, WEIGHT>(
+                reinterpret_cast<MGraph<int, basic_string<char>, int> &>(G.graphForm));
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
 SimpleGraph<DATA, NAME, WEIGHT>::~SimpleGraph() {
-//todo
+    delete graphForm;
 }
 
 

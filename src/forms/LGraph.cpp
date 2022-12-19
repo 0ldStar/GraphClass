@@ -5,11 +5,34 @@
 #include "LGraph.h"
 
 template<typename DATA, typename NAME, typename WEIGHT>
-LGraph<DATA, NAME, WEIGHT>::LGraph(unsigned _size) {
+LGraph<DATA, NAME, WEIGHT>::LGraph(unsigned _size, bool _directed) {
     size = _size;
+    directed = _directed;
     list = new VNode(0, nullptr, nullptr);
     for (int i = 1; i < size; ++i) {
         list = new VNode(i, nullptr, list);
+    }
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+LGraph<DATA, NAME, WEIGHT>::LGraph(LGraph &G) {
+
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+LGraph<DATA, NAME, WEIGHT>::~LGraph() {
+    VNode *vtmp;
+    ENode *elist, *etmp;
+    while (list) {
+        elist = list->eNode;
+        while (elist) {
+            etmp = elist->next;
+            delete elist;
+            elist = etmp;
+        }
+        vtmp = list->next;
+        delete list;
+        list = vtmp;
     }
 }
 
@@ -73,8 +96,9 @@ bool LGraph<DATA, NAME, WEIGHT>::deleteE(EdgeT *e) {
 
 template<typename DATA, typename NAME, typename WEIGHT>
 Edge<DATA, NAME, WEIGHT> *LGraph<DATA, NAME, WEIGHT>::insertE(VertexT *v1, VertexT *v2) {
-    insert(v1, v2);
-    Edge<DATA, NAME, WEIGHT> *res = insert(v2, v1);
+    if (!directed)
+        insert(v2, v1);
+    Edge<DATA, NAME, WEIGHT> *res = insert(v1, v2);
     return res;
 }
 
@@ -82,6 +106,7 @@ template<typename DATA, typename NAME, typename WEIGHT>
 void LGraph<DATA, NAME, WEIGHT>::print() {
     int i, j;
     VertexT *v;
+    cout << "LIST" << endl;
     for (i = 0; i < size; i++) {
         v = vertexVector[i];
         cout << "*" << v->getName() << "->";

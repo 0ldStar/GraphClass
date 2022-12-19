@@ -14,5 +14,10 @@ int main() {
     v4.setInd(4);
     simpleGraph.insertE(&v3, &v4);
     simpleGraph.printGraph();
+    Edge<int, string ,int> e1(&v1, &v2);
+    Edge<int, string ,int> e2(&v3, &v4);
+    simpleGraph.deleteE(&e1);
+    simpleGraph.deleteE(&e2);
+    simpleGraph.printGraph();
     return 0;
 }

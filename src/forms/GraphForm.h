@@ -26,7 +26,7 @@ public:
 
     virtual void print() = 0;
 
-    virtual vector<VertexT *> & getVertexVector() = 0;
+    virtual vector<VertexT *> &getVertexVector() = 0;
 };
 
 

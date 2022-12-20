@@ -36,7 +36,7 @@ public:
 
     vector<EdgeT *> *getEdgeVector();
 
-    vector<EdgeT *> *getEdgeVector(Vertex<DATA, NAME> *v);
+    vector<EdgeT *> *getEdgeVector(int v);
 
 private:
     class ENode {

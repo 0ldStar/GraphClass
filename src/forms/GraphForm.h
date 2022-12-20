@@ -28,7 +28,7 @@ public:
 
     virtual vector<EdgeT *> *getEdgeVector() = 0;
 
-    virtual vector<EdgeT *> *getEdgeVector(Vertex<DATA, NAME> *v) = 0;
+    virtual vector<EdgeT *> *getEdgeVector(int v) = 0;
 
     virtual vector<VertexT *> &getVertexVector() = 0;
 };

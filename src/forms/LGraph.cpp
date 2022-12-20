@@ -178,13 +178,13 @@ vector<Edge<DATA, NAME, WEIGHT> *> *LGraph<DATA, NAME, WEIGHT>::getEdgeVector() 
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-vector<Edge<DATA, NAME, WEIGHT> *> *LGraph<DATA, NAME, WEIGHT>::getEdgeVector(Vertex<DATA, NAME> *v) {
+vector<Edge<DATA, NAME, WEIGHT> *> *LGraph<DATA, NAME, WEIGHT>::getEdgeVector(int v) {
     edgeVector = new vector<Edge<DATA, NAME, WEIGHT> *>();
     VNode *vtmp = list;
     ENode *etmp;
 
     while (vtmp) {
-        if (vtmp->v_ind == v->getInd()) {
+        if (vtmp->v_ind == v) {
             etmp = vtmp->eNode;
             while (etmp) {
                 edgeVector->push_back(etmp->e);

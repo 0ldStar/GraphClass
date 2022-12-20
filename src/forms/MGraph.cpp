@@ -102,11 +102,11 @@ vector<Edge<DATA, NAME, WEIGHT> *> *MGraph<DATA, NAME, WEIGHT>::getEdgeVector() 
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-vector<Edge<DATA, NAME, WEIGHT> *> *MGraph<DATA, NAME, WEIGHT>::getEdgeVector(Vertex<DATA, NAME> *v) {
+vector<Edge<DATA, NAME, WEIGHT> *> *MGraph<DATA, NAME, WEIGHT>::getEdgeVector(int v) {
     edgeVector = new vector<Edge<DATA, NAME, WEIGHT> *>();
     for (int i = 0; i < size; ++i) {
-        if (matrix[v->getInd()][i])
-            edgeVector->push_back(matrix[v->getInd()][i]);
+        if (matrix[v][i])
+            edgeVector->push_back(matrix[v][i]);
     }
     return edgeVector;
 }

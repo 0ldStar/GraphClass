@@ -1,5 +1,6 @@
 #include <iostream>
 #include "SimpleGraph.h"
+#include "Task2.h"
 
 int main() {
     SimpleGraph<int, string, int> simpleGraph(5, 0, NonDGraphType, LGraphType);
@@ -28,8 +29,18 @@ int main() {
         cout << (*it)->getW() << " ";
     }
     cout << endl;
-    for (auto it = simpleGraph.adjEBegin(&v3); it != simpleGraph.adjEEnd(&v3); it++){
+    for (auto it = simpleGraph.adjEBegin(3); it != simpleGraph.adjEEnd(3); it++){
         cout << (*it)->getW() << " ";
     }
+    cout << endl;
+
+    SimpleGraph<int, string, int> bipartile(6, 5, NonDGraphType, MGraphType);
+    bipartile.printGraph();
+    Task2<int, string ,int> task2(&bipartile);
+    cout << task2.bipartite() << endl;
+    for (int i = 0; i < simpleGraph.getV(); ++i) {
+        cout << task2.color(i) << " ";
+    }
+    cout << endl;
     return 0;
 }

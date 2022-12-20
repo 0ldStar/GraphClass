@@ -69,9 +69,9 @@ public:
 
     EdgeIterator<DATA, NAME, WEIGHT> eEnd();
 
-    EdgeIterator<DATA, NAME, WEIGHT> adjEBegin(Vertex<DATA, NAME> * v);
+    EdgeIterator<DATA, NAME, WEIGHT> adjEBegin(int v);
 
-    EdgeIterator<DATA, NAME, WEIGHT> adjEEnd(Vertex<DATA, NAME> * v);
+    EdgeIterator<DATA, NAME, WEIGHT> adjEEnd(int v);
 
 private:
     int VCount;

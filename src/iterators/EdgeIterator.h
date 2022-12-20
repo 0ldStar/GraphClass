@@ -14,7 +14,7 @@ public:
     using EdgeT = Edge<DATA, NAME, WEIGHT>;
     using reference = EdgeIterator &;
 
-    EdgeIterator(vector<EdgeT *> *_edgeVector, int ind);
+    EdgeIterator(vector<EdgeT *> *edgeVector, int ind);
 
     Edge<DATA, NAME, WEIGHT> *operator*() const { return (*edgeVector)[index]; }
 
@@ -38,6 +38,8 @@ public:
         if (index == edgeVector->size()) index = -1;
         return *this;
     }
+
+    int getInd() { return index; }
 
 private:
     vector<EdgeT *> *edgeVector;

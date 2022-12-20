@@ -164,12 +164,12 @@ VertexIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::vBegin() {
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-EdgeIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::adjEEnd(Vertex<DATA, NAME> *v) {
+EdgeIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::adjEEnd(int v) {
     return EdgeIterator<DATA, NAME, WEIGHT>(nullptr, -1);
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-EdgeIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::adjEBegin(Vertex<DATA, NAME> *v) {
+EdgeIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::adjEBegin(int v) {
     return EdgeIterator<DATA, NAME, WEIGHT>(graphForm->getEdgeVector(v), 0);
 }
 

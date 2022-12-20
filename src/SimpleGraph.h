@@ -59,6 +59,8 @@ public:
 
     EdgeT *getEdge(VertexT *v1, VertexT *v2);
 
+    EdgeT *getEdge(int v1, int v2);
+
     void printGraph();
 
     VertexIterator<DATA, NAME, WEIGHT> vBegin();
@@ -73,14 +75,19 @@ public:
 
     EdgeIterator<DATA, NAME, WEIGHT> adjEEnd(int v);
 
+    GraphForm<DATA, NAME, WEIGHT> *graphForm;
+
 private:
+    void switchForm(GraphForm<DATA, NAME, WEIGHT> *newForm);
+
     int VCount;
     int ECount;
     bool D;
     bool dense;
-    GraphForm<DATA, NAME, WEIGHT> *graphForm;
 };
 
+template
+class SimpleGraph<int, string, int>;
 
 
 #endif //ASD_RGR_SIMPLEGRAPH_H

@@ -17,12 +17,31 @@ LGraph<DATA, NAME, WEIGHT>::LGraph(unsigned _size, bool _directed) {
 
 template<typename DATA, typename NAME, typename WEIGHT>
 LGraph<DATA, NAME, WEIGHT>::LGraph(LGraph &G) {
-//todo
+    size = G.size;
+    directed = G.directed;
+    edgeVector = G.edgeVector;
+    list = G.list;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
 void LGraph<DATA, NAME, WEIGHT>::insertV(int v) {
-    return ;
+    VNode *vtmp, *prev;
+    vtmp = prev = list;
+    ENode *etmp, *edel;
+    if (!vtmp) {
+        list = new VNode(v, nullptr, nullptr);
+        return;
+    }
+    if (vtmp->v_ind == v) {
+        return;
+    }
+    vtmp = vtmp->next;
+    while (vtmp) {
+        if (vtmp->v_ind == v) return;
+        vtmp = vtmp->next;
+        prev = prev->next;
+    }
+    prev->next = new VNode(v, nullptr, nullptr);
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
@@ -64,6 +83,11 @@ bool LGraph<DATA, NAME, WEIGHT>::hasEdge(int i, int j) {
 
 template<typename DATA, typename NAME, typename WEIGHT>
 Edge<DATA, NAME, WEIGHT> *LGraph<DATA, NAME, WEIGHT>::getEdge(VertexT *v1, VertexT *v2) {
+    return getEdge(v1->getInd(), v2->getInd());
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+Edge<DATA, NAME, WEIGHT> *LGraph<DATA, NAME, WEIGHT>::getEdge(int v1, int v2) {
     VNode *vtmp = list;
     ENode *etmp;
     Edge<DATA, NAME, WEIGHT> *e;
@@ -71,7 +95,7 @@ Edge<DATA, NAME, WEIGHT> *LGraph<DATA, NAME, WEIGHT>::getEdge(VertexT *v1, Verte
         etmp = vtmp->eNode;
         while (etmp && etmp->next) {
             e = etmp->next->e;
-            if (e->getV1()->getInd() == v1->getInd() && e->getV2()->getInd() == v2->getInd()) {
+            if (e->getV1()->getInd() == v1 && e->getV2()->getInd() == v2) {
                 return e;
             }
             etmp = etmp->next;
@@ -115,7 +139,13 @@ Edge<DATA, NAME, WEIGHT> *LGraph<DATA, NAME, WEIGHT>::insertE(VertexT *v1, Verte
     if (!directed)
         insert(v2, v1);
     Edge<DATA, NAME, WEIGHT> *res = insert(v1, v2);
+    cout << v1->getInd() << " " << v2->getInd() << endl;
     return res;
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+void LGraph<DATA, NAME, WEIGHT>::setDirected(bool d) {
+    directed = d;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
@@ -145,7 +175,6 @@ bool LGraph<DATA, NAME, WEIGHT>::deleteV(int v) {
                 delete edel->e;
                 delete edel;
             }
-            //todo delete column
             prev->next = vtmp->next;
             delete vtmp;
             size--;
@@ -175,16 +204,6 @@ void LGraph<DATA, NAME, WEIGHT>::print() {
         cout << endl;
         vtmp = vtmp->next;
     }
-//    for (i = 0; i < size; i++) {
-//        v = vertexVector[i];
-//        cout << "*" << v->getName() << "->";
-//        for (j = 0; j < size; j++) {
-//            v = vertexVector[j];
-//            if (hasEdge(i, j))
-//                cout << v->getName() << "->";
-//        }
-//        cout << endl;
-//    }
 
 }
 
@@ -198,10 +217,11 @@ Edge<DATA, NAME, WEIGHT> *LGraph<DATA, NAME, WEIGHT>::insert(VertexT *v1, Vertex
     VNode *vtmp = list;
     ENode *etmp;
     Edge<DATA, NAME, WEIGHT> *res;
+    int w = ((rand() % 9) + 1);
     while (vtmp) {
         if (vtmp->v_ind == v1->getInd()) {
             etmp = vtmp->eNode;
-            res = new Edge<DATA, NAME, WEIGHT>(v1, v2);
+            res = new Edge<DATA, NAME, WEIGHT>(v1, v2, w);
             if (!etmp) {
                 vtmp->eNode = new ENode(res, nullptr);
             } else {

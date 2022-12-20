@@ -1,6 +1,7 @@
 #include <iostream>
 #include "SimpleGraph.h"
 #include "Task2.h"
+#include "Task3.h"
 
 int main() {
     SimpleGraph<int, string, int> simpleGraph(4, 10, NonDGraphType, MGraphType);
@@ -10,28 +11,10 @@ int main() {
     Vertex<int, string> v4("4", 4);
     v1.setInd(0);
     v2.setInd(1);
-//    simpleGraph.insertE(&v1, &v2);
     v3.setInd(2);
     v4.setInd(3);
-//    simpleGraph.insertE(&v3, &v4);
-//    simpleGraph.insertE(&v1, &v4);
-//    simpleGraph.printGraph();
 
-//    Edge<int, string ,int> e1(&v1, &v2);
-//    Edge<int, string ,int> e2(&v3, &v4);
-//    simpleGraph.deleteE(&e1);
-//    simpleGraph.deleteE(&e2);
     simpleGraph.printGraph();
-    simpleGraph.deleteV(&v1);
-    simpleGraph.deleteV(&v2);
-    simpleGraph.deleteV(&v3);
-    simpleGraph.deleteV(&v4);
-    simpleGraph.insertV();
-    simpleGraph.insertV();
-    simpleGraph.insertV();
-    simpleGraph.insertV();
-    simpleGraph.insertV();
-    simpleGraph.insertV();
     simpleGraph.printGraph();
     cout << endl;
     for (auto it = simpleGraph.vBegin(); it != simpleGraph.vEnd(); it++) {
@@ -48,14 +31,22 @@ int main() {
             cout << (*it)->getData() << " ";
         }
     cout << endl;
+    simpleGraph.toListGraph();
+    simpleGraph.printGraph();
+    simpleGraph.toMatrixGraph();
+    simpleGraph.printGraph();
 
-//    SimpleGraph<int, string, int> bipartile(8, 5, NonDGraphType, MGraphType);
-//    bipartile.printGraph();
-//    Task2<int, string ,int> task2(&bipartile);
-//    cout << task2.bipartite() << endl;
-//    for (int i = 0; i < bipartile.getV(); ++i) {
-//        cout << task2.color(i) << " ";
-//    }
-//    cout << endl;
+    SimpleGraph<int, string, int> bipartite(8, 8, NonDGraphType, MGraphType);
+    bipartite.printGraph();
+    Task2<int, string, int> task2(&bipartite);
+    cout << task2.bipartite() << endl;
+    auto vc = task2.result();
+    for (int i = 0; i < bipartite.getV(); ++i) {
+        cout << vc[i] << " ";
+    }
+    cout << endl;
+    Task3<int, string, int> task3(&bipartite);
+    cout << "Result " << task3.result() << endl;
+    cout << task3.getPath();
     return 0;
 }

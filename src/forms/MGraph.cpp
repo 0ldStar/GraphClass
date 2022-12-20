@@ -55,6 +55,11 @@ Edge<DATA, NAME, WEIGHT> *MGraph<DATA, NAME, WEIGHT>::getEdge(VertexT *v1, Verte
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
+Edge<DATA, NAME, WEIGHT> *MGraph<DATA, NAME, WEIGHT>::getEdge(int v1, int v2) {
+    return matrix[v1][v2];
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
 bool MGraph<DATA, NAME, WEIGHT>::deleteE(EdgeT *e) {
     int i1 = e->getV1()->getInd();
     int i2 = e->getV2()->getInd();
@@ -78,19 +83,8 @@ bool MGraph<DATA, NAME, WEIGHT>::deleteV(int v) {
                 if (j != i) {
                     delete matrix[j][i];
                     matrix[j][i] = nullptr;
-
-//                    for (int k = i; k < size - 1; ++k) {
-//                        matrix[j][k] = matrix[j][k + 1];
-//                    }
-//                    matrix[j][size-1] = nullptr;
-//                    matrix[j].resize(size - 1);
                 }
             }
-//            for (int j = i; j < size - 1; ++j) { // move row
-//                matrix[j] = matrix[j + 1];
-//            }
-//            size--;
-//            matrix.resize(size);
             return true;
         }
     }
@@ -112,6 +106,11 @@ void MGraph<DATA, NAME, WEIGHT>::insertV(int v) {
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
+void MGraph<DATA, NAME, WEIGHT>::setDirected(bool d) {
+    directed = d;
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
 Edge<DATA, NAME, WEIGHT> *MGraph<DATA, NAME, WEIGHT>::insertE(VertexT *v1, VertexT *v2) {
     int w = ((rand() % 9) + 1);
     if (!directed)
@@ -124,7 +123,10 @@ void MGraph<DATA, NAME, WEIGHT>::print() {
     cout << "MATRIX" << endl;
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-            cout << (matrix[i][j] ? "1" : "0") << " ";
+            if (matrix[i][j])
+                cout << matrix[i][j]->getW() << " ";
+            else
+                cout << "0 ";
         }
         cout << endl;
     }

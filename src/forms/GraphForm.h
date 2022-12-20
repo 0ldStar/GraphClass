@@ -18,6 +18,8 @@ class GraphForm {
 public:
     virtual bool hasEdge(int i, int j) = 0;
 
+    virtual EdgeT *getEdge(int v1, int v2) = 0;
+
     virtual EdgeT *insertE(VertexT *v1, VertexT *v2) = 0;
 
     virtual bool deleteE(EdgeT *e) = 0;
@@ -27,6 +29,8 @@ public:
     virtual void print() = 0;
 
     virtual bool deleteV(int v) = 0;
+
+    virtual void setDirected(bool d) = 0;
 
     virtual void insertV(int v) = 0;
 

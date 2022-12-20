@@ -72,10 +72,6 @@ SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCount, int _ECount, bool _D, 
     }
 }
 
-// bipartite
-//for (int i = 0; i < ECount; ++i) {
-//graphForm->insertE(graphForm->getVertexVector()[i], graphForm->getVertexVector()[VCount - i - 1]);
-//}
 template<typename DATA, typename NAME, typename WEIGHT>
 SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(SimpleGraph &G) {
     VCount = G.VCount;
@@ -120,17 +116,37 @@ Vertex<DATA, NAME> *SimpleGraph<DATA, NAME, WEIGHT>::insertV() {
     v->setInd(VCount - 1);
     graphForm->getVertexVector().push_back(v);
     graphForm->insertV(VCount - 1);
-    return v;//todo
+    return v;
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+void SimpleGraph<DATA, NAME, WEIGHT>::switchForm(GraphForm<DATA, NAME, WEIGHT> *newForm) {
+    for (int i = 0; i < graphForm->getVertexVector().size(); ++i) {
+        newForm->insertV(graphForm->getVertexVector()[i]->getInd());
+    }
+    int v1, v2;
+    for (auto it = eBegin(); it != eEnd(); it++) {
+        newForm->insertE((*it)->getV1(), (*it)->getV2());
+    }
+    delete graphForm;
+    graphForm = newForm;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
 void SimpleGraph<DATA, NAME, WEIGHT>::toMatrixGraph() {
-    //todo
+    if (dense == MGraphType) return;
+    auto newForm = new MGraph<DATA, NAME, WEIGHT>(VCount, D);
+    switchForm(newForm);
+    dense = MGraphType;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
 void SimpleGraph<DATA, NAME, WEIGHT>::toListGraph() {
-//todo
+    if (dense == LGraphType)return;
+    auto newForm = new LGraph<DATA, NAME, WEIGHT>(VCount, DGraphType);
+    switchForm(newForm);
+    newForm->setDirected(D);
+    dense = LGraphType;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
@@ -166,6 +182,11 @@ int SimpleGraph<DATA, NAME, WEIGHT>::getV() {
 
 template<typename DATA, typename NAME, typename WEIGHT>
 Edge<DATA, NAME, WEIGHT> *SimpleGraph<DATA, NAME, WEIGHT>::getEdge(VertexT *v1, VertexT *v2) {
+    return graphForm->getEdge(v1, v2);
+}
+
+template<typename DATA, typename NAME, typename WEIGHT>
+Edge<DATA, NAME, WEIGHT> *SimpleGraph<DATA, NAME, WEIGHT>::getEdge(int v1, int v2) {
     return graphForm->getEdge(v1, v2);
 }
 
@@ -214,5 +235,3 @@ EdgeIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::adjEBegin(int 
     return EdgeIterator<DATA, NAME, WEIGHT>(graphForm->getEdgeVector(v), 0);
 }
 
-template
-class SimpleGraph<int, string, int>;

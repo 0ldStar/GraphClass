@@ -26,12 +26,17 @@ public:
 
     bool deleteE(EdgeT *e);
 
+    EdgeT *getEdge(int v1, int v2);
+
     EdgeT *getEdge(VertexT *v1, VertexT *v2);
 
     void print();
 
     bool deleteV(int v);
+
     void insertV(int v);
+
+    void setDirected(bool d);
 
     vector<VertexT *> &getVertexVector();
 

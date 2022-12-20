@@ -139,7 +139,6 @@ Edge<DATA, NAME, WEIGHT> *LGraph<DATA, NAME, WEIGHT>::insertE(VertexT *v1, Verte
     if (!directed)
         insert(v2, v1);
     Edge<DATA, NAME, WEIGHT> *res = insert(v1, v2);
-    cout << v1->getInd() << " " << v2->getInd() << endl;
     return res;
 }
 

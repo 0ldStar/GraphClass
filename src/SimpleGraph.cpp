@@ -67,8 +67,8 @@ SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCount, int _ECount, bool _D, 
             continue;
         if (graphForm->hasEdge(v1, v2))
             continue;
-
-        graphForm->insertE(graphForm->getVertexVector()[v1], graphForm->getVertexVector()[v2]);
+        if (!graphForm->hasEdge(v1, v2))
+            graphForm->insertE(graphForm->getVertexVector()[v1], graphForm->getVertexVector()[v2]);
     }
 }
 

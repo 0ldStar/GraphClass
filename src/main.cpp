@@ -1,52 +1,106 @@
-#include <iostream>
-#include "SimpleGraph.h"
-#include "Task2.h"
-#include "Task3.h"
+
+#include "menu/menu.h"
+
+SimpleGraph<int, string, int> *graph = nullptr;
+using namespace std;
 
 int main() {
-    SimpleGraph<int, string, int> simpleGraph(4, 10, NonDGraphType, MGraphType);
-    Vertex<int, string> v1("1", 1);
-    Vertex<int, string> v2("2", 2);
-    Vertex<int, string> v3("3", 3);
-    Vertex<int, string> v4("4", 4);
-    v1.setInd(0);
-    v2.setInd(1);
-    v3.setInd(2);
-    v4.setInd(3);
-
-    simpleGraph.printGraph();
-    simpleGraph.printGraph();
-    cout << endl;
-    for (auto it = simpleGraph.vBegin(); it != simpleGraph.vEnd(); it++) {
-        cout << *it << " ";
-    }
-    cout << endl;
-    for (auto it = simpleGraph.eBegin(); it != simpleGraph.eEnd(); it++) {
-        cout << (*it)->getData() << " ";
-    }
-    cout << endl;
-    auto it = simpleGraph.adjEBegin(3);
-    if (it.getSize() > 0)
-        for (; it != simpleGraph.adjEEnd(3); it++) {
-            cout << (*it)->getData() << " ";
+    system("clear");
+    int command = -1;
+    while (command != 13) {
+        printf("\tThis is interactive menu for Graph structure.\n"
+               "What you want to do?\n"
+               "1) Fill the graph.\n"
+               "2) Get vertex count.\n"
+               "3) Get edge count.\n"
+               "4) Get graph direction type.\n"
+               "5) Get graph form type.\n"
+               "6) Get saturation factor.\n"
+               "7) Transform graph to Matrix graph.\n"
+               "8) Transform graph to List graph.\n"
+               "9) Print the graph\n"
+               "10) Iterators menu\n"
+               "11) Check bipartite\n"
+               "12) Get diameter\n"
+               "13) Exit.\n"
+               ":");
+        if (scanf("%d", &command) != 1) {
+            while (getchar() != '\n') {}
         }
-    cout << endl;
-    simpleGraph.toListGraph();
-    simpleGraph.printGraph();
-    simpleGraph.toMatrixGraph();
-    simpleGraph.printGraph();
-
-    SimpleGraph<int, string, int> bipartite(8, 8, NonDGraphType, MGraphType);
-    bipartite.printGraph();
-    Task2<int, string, int> task2(&bipartite);
-    cout << task2.bipartite() << endl;
-    auto vc = task2.result();
-    for (int i = 0; i < bipartite.getV(); ++i) {
-        cout << vc[i] << " ";
+        system("clear");
+        switch (command) {
+            case 1:
+                printFillMenu();
+                break;
+            case 2:
+                if (graph)
+                    cout << "Vertex count = " << graph->getV() << endl;
+                else
+                    cout << "Graph is not initialize\n";
+                break;
+            case 3:
+                if (graph)
+                    cout << "Edge count = " << graph->getE() << endl;
+                else
+                    cout << "Graph is not initialize\n";
+                break;
+            case 4:
+                if (graph)
+                    cout << (graph->isDirected() ? "Directed" : "Non directed") << " graph." << endl;
+                else
+                    cout << "Graph is not initialize\n";
+                break;
+            case 5:
+                if (graph)
+                    cout << (graph->isDense() ? "Matrix" : "List") << " graph." << endl;
+                else
+                    cout << "Graph is not initialize\n";
+                break;
+            case 6:
+                if (graph)
+                    cout << "Saturation factor = " << graph->getK() << endl;
+                else
+                    cout << "Graph is not initialize\n";
+                break;
+            case 7:
+                if (graph)
+                    graph->toMatrixGraph();
+                else
+                    cout << "Graph is not initialize\n";
+                break;
+            case 8:
+                if (graph)
+                    graph->toListGraph();
+                else
+                    cout << "Graph is not initialize\n";
+                break;
+            case 9:
+                if (graph)
+                    graph->printGraph();
+                else
+                    cout << "Graph is not initialize\n";
+                break;
+            case 10:
+                if (graph)
+                    iteratorsMenu();
+                else
+                    cout << "Graph is not initialize\n";
+                break;
+            case 11:
+                if (graph)
+                    task2Menu();
+                else
+                    cout << "Graph is not initialize\n";
+                break;
+            case 12:
+                if (graph)
+                    task3Menu();
+                else
+                    cout << "Graph is not initialize\n";
+                break;
+            default:
+                break;
+        }
     }
-    cout << endl;
-    Task3<int, string, int> task3(&bipartite);
-    cout << "Result " << task3.result() << endl;
-    cout << task3.getPath();
     return 0;
 }

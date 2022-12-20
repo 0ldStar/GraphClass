@@ -12,4 +12,5 @@ add_executable(ASD_rgr src/main.cpp src/SimpleGraph.cpp src/SimpleGraph.h
         src/forms/MGraph.cpp src/forms/MGraph.h
         src/forms/GraphForm.cpp src/forms/GraphForm.h
         src/Task2.cpp src/Task2.h
-        src/Task3.cpp src/Task3.h)
+        src/Task3.cpp src/Task3.h
+        src/menu/menu.cpp src/menu/menu.h)

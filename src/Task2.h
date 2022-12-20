@@ -16,12 +16,12 @@ class Task2 {
 
     bool dfsR(int v, int c) {
         vc[v] = (c + 1) % 2;
-
         for (auto t = G->adjEBegin(v); t != G->adjEEnd(v); t++) {
-            if (vc[t.getInd()] == -1) {
-                if (!dfsR(t.getInd(), vc[v]))
+//            cout << vc[(*t)->getV2()->getInd()] << " " << (*t)->getV2()->getInd() << "dfsR ";
+            if (vc[(*t)->getV2()->getInd()] == -1) {
+                if (!dfsR((*t)->getV2()->getInd(), vc[v]))
                     return false;
-            } else if (vc[t.getInd()] != c)
+            } else if (vc[(*t)->getV2()->getInd()] != c)
             return false;
         }
         return true;

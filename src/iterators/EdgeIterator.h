@@ -39,6 +39,8 @@ public:
         return *this;
     }
 
+    int getSize() { return edgeVector->size(); };
+
     int getInd() { return index; }
 
 private:

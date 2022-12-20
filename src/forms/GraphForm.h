@@ -26,6 +26,10 @@ public:
 
     virtual void print() = 0;
 
+    virtual bool deleteV(int v) = 0;
+
+    virtual void insertV(int v) = 0;
+
     virtual vector<EdgeT *> *getEdgeVector() = 0;
 
     virtual vector<EdgeT *> *getEdgeVector(int v) = 0;

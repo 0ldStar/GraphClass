@@ -8,7 +8,7 @@ template<typename DATA, typename NAME, typename WEIGHT>
 Edge<DATA, NAME, WEIGHT>::Edge(Vertex<DATA, NAME> *_v1, Vertex<DATA, NAME> *_v2) {
     v1 = _v1;
     v2 = _v2;
-    w = v1->getInd() * 10 + v2->getInd();
+    data = v1->getInd() * 10 + v2->getInd();
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
@@ -16,6 +16,7 @@ Edge<DATA, NAME, WEIGHT>::Edge(Vertex<DATA, NAME> *_v1, Vertex<DATA, NAME> *_v2,
     v1 = _v1;
     v2 = _v2;
     w = _w;
+    data = v1->getInd() * 10 + v2->getInd();
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>

@@ -30,6 +30,10 @@ public:
 
     void print();
 
+    bool deleteV(int v);
+
+    void insertV(int v);
+
     vector<VertexT *> &getVertexVector();
 
     vector<VertexT *> vertexVector;

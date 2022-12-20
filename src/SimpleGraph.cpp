@@ -27,6 +27,8 @@ SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCount, bool _D, bool _F) {
 
     for (int i = 0; i < VCount; ++i) {
         graphForm->getVertexVector().push_back(new VertexT());
+        graphForm->getVertexVector()[i]->setName(to_string(i));
+        graphForm->getVertexVector()[i]->setInd(i);
     }
 }
 
@@ -47,11 +49,33 @@ SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCount, int _ECount, bool _D, 
         graphForm->getVertexVector()[i]->setName(to_string(i));
         graphForm->getVertexVector()[i]->setInd(i);
     }
+    if (ECount <= 0) return;
+    if (D) {
+        if (ECount > VCount * (VCount - 1))
+            ECount = VCount * (VCount - 1);
+        srand(time(0));
+    } else {
+        if (ECount > (VCount * (VCount - 1)) / 2)
+            ECount = (VCount * (VCount - 1)) / 2;
+    }
+    int v1, v2;
     for (int i = 0; i < ECount; ++i) {
-        graphForm->insertE(graphForm->getVertexVector()[i], graphForm->getVertexVector()[VCount - i - 1]);
+
+        v1 = rand() % VCount;
+        v2 = rand() % VCount;
+        if (v1 == v2)
+            continue;
+        if (graphForm->hasEdge(v1, v2))
+            continue;
+
+        graphForm->insertE(graphForm->getVertexVector()[v1], graphForm->getVertexVector()[v2]);
     }
 }
 
+// bipartite
+//for (int i = 0; i < ECount; ++i) {
+//graphForm->insertE(graphForm->getVertexVector()[i], graphForm->getVertexVector()[VCount - i - 1]);
+//}
 template<typename DATA, typename NAME, typename WEIGHT>
 SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(SimpleGraph &G) {
     VCount = G.VCount;
@@ -74,12 +98,29 @@ SimpleGraph<DATA, NAME, WEIGHT>::~SimpleGraph() {
 
 template<typename DATA, typename NAME, typename WEIGHT>
 bool SimpleGraph<DATA, NAME, WEIGHT>::deleteV(VertexT *v) {
-    return false;//todo
+    for (int i = 0; i < VCount; ++i) {
+        if (graphForm->getVertexVector()[i]->getInd() == v->getInd()) {
+            delete graphForm->getVertexVector()[i];
+            for (int j = i; j < VCount - 1; ++j) {
+                graphForm->getVertexVector()[j] = graphForm->getVertexVector()[j + 1];
+            }
+            graphForm->deleteV(v->getInd());
+            VCount--;
+            graphForm->getVertexVector().resize(VCount);
+            return true;
+        }
+    }
+    return false;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
 Vertex<DATA, NAME> *SimpleGraph<DATA, NAME, WEIGHT>::insertV() {
-    return nullptr;//todo
+    auto *v = new Vertex<DATA, NAME>;
+    VCount++;
+    v->setInd(VCount - 1);
+    graphForm->getVertexVector().push_back(v);
+    graphForm->insertV(VCount - 1);
+    return v;//todo
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>

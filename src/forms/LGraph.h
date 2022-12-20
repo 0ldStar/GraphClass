@@ -30,6 +30,9 @@ public:
 
     void print();
 
+    bool deleteV(int v);
+    void insertV(int v);
+
     vector<VertexT *> &getVertexVector();
 
     vector<VertexT *> vertexVector;
@@ -65,6 +68,7 @@ private:
     };
 
     Edge<DATA, NAME, WEIGHT> *insert(VertexT *v1, VertexT *v2);
+
     vector<EdgeT *> *edgeVector;
     VNode *list;
     unsigned size;
